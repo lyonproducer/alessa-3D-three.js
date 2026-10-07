@@ -1281,11 +1281,13 @@ export function createParticleObject(
 }
 
 export interface ParticleObjectProps extends ParticleObjectOptions {
+  ariaLabel?: string;
   className?: string;
   style?: React.CSSProperties;
 }
 
 export function ParticleObject({
+  ariaLabel,
   className,
   style,
   ...options
@@ -1312,10 +1314,13 @@ export function ParticleObject({
     instanceRef.current?.setOptions(options);
   });
 
+  /* oxlint-disable jsx-a11y/prefer-tag-over-role -- A WebGL canvas cannot be replaced by an img; the role exposes its visual content. */
   return (
     <div className={className} style={{ position: 'relative', ...style }}>
       <canvas
         ref={canvasRef}
+        role="img"
+        aria-label={ariaLabel}
         style={{
           position: 'absolute',
           inset: 0,
@@ -1327,6 +1332,7 @@ export function ParticleObject({
       />
     </div>
   );
+  /* oxlint-enable jsx-a11y/prefer-tag-over-role */
 }
 
 export default ParticleObject;
